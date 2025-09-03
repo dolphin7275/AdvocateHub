@@ -7,7 +7,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import { MdOutlineSecurity} from "react-icons/md";
 import { FaUserTie, FaUsers} from 'react-icons/fa';
-/* Styled MUI Components */
+
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({

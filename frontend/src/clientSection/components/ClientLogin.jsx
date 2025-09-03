@@ -26,7 +26,7 @@ const ClientLogin = () => {
     });
   };
 
-  // Custom toast components
+  // ✅ Custom toast components
   const CustomSuccessToast = ({ message, closeToast }) => (
     <div className="custom-toast-container">
       <CheckCircle size={64} className="custom-toast-icon-success" />
@@ -52,6 +52,7 @@ const ClientLogin = () => {
     </div>
   );
 
+  // ✅ Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -69,13 +70,14 @@ const ClientLogin = () => {
       localStorage.setItem("accessToken", access);
       localStorage.setItem("refreshToken", refresh);
 
-      // Set default Authorization header for all future requests
+      // set default Authorization header for all future requests
       api.defaults.headers.common["Authorization"] = `Bearer ${access}`;
 
       const roleRes = await api.get("/userapi/me/");
       const role = roleRes.data.role;
       localStorage.setItem("role", role);
 
+      // If user is not client ❌
       if (role !== "client") {
         setShowToast(true);
         toast.error(
@@ -95,6 +97,7 @@ const ClientLogin = () => {
         return;
       }
 
+      // ✅ Success toast
       setShowToast(true);
       toast.success(
         <CustomSuccessToast message="Login successful!" />,
@@ -110,10 +113,14 @@ const ClientLogin = () => {
           onClose: () => setShowToast(false)
         }
       );
+
+      // redirect to client dashboard
       setTimeout(() => navigate("/client/dashboard"), 1000);
+ 
     } catch (err) {
       console.error(err);
       setShowToast(true);
+
       if (err.response?.status === 401) {
         toast.error(
           <CustomErrorToast message="Invalid email or password." />,
@@ -151,24 +158,31 @@ const ClientLogin = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="flex flex-col md:flex-row lg:flex-row min-h-screen bg-[#8080d7] text-[#010922] font-sans relative">
       {/* Blur overlay when toast is visible */}
-      {showToast && <div className="toast-overlay"></div>}
+      {showToast && <div className="toast-overlay absolute inset-0 z-20"></div>}
       
-      <div className={`login-left-section ${showToast ? 'blurred' : ''}`}>
-        <div className="login-logo">
-          <span className="logo-advocate">ADVOCATE</span>
-          <span className="logo-hub">HUB</span>
+      {/* Left section */}
+      <div className={`w-full md:w-full lg:w-1/2 flex justify-center items-center p-8 max-md:py-12 ${showToast ? 'blurred' : ''}`}>
+        <div className="text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold">
+            <span className="text-white">ADVOCATE</span>{" "}
+            <span className="text-[#010922]">HUB</span>
+          </h1>
+          <p className="mt-4 text-white text-md md:text-lg italic">Seek for the truth</p>
         </div>
-        <p className="login-tagline">Seek for the truth</p>
       </div>
 
-      <div className={`login-right-section ${showToast ? 'blurred' : ''}`}>
-        <form onSubmit={handleSubmit} className="login-form">
-          <h2 className="login-title">Log in</h2>
+      {/* Right section */}
+      <div className={`w-full md:w-full lg:w-1/2 flex justify-center items-center px-6 py-10 md:px-12 lg:p-20 bg-[#8080d7] ${showToast ? 'blurred' : ''}`}>
+        <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto bg-[#aad9d9] p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-300 space-y-5">
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-[#010922] text-center">
+            CLIENT LOGIN
+          </h2>
 
-          <div className="form-group">
-            <label className="form-label">Email</label>
+          {/* Email */}
+          <div>
+            <label className="block font-semibold mb-2 text-[#010922]">Email</label>
             <input
               type="email"
               name="email"
@@ -176,57 +190,61 @@ const ClientLogin = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="form-input"
+              className="w-full px-4 py-3 text-[#010922] placeholder-gray-700 bg-[#F3F4F6] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#010922] transition-all duration-200 hover:shadow-md hover:border-[#7aafa8]"
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Password</label>
+          {/* Password */}
+          <div>
+            <label className="block font-semibold mb-2 text-[#010922]">Password</label>
             <input
               type="password"
               name="password"
-              placeholder=""
+              placeholder="********"
               value={formData.password}
               onChange={handleChange}
               required
-              className="form-input"
+              className="w-full px-4 py-3 text-[#010922] placeholder-gray-700 bg-[#F3F4F6] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#010922] transition-all duration-200 hover:shadow-md hover:border-[#7aafa8]"
             />
           </div>
 
-          <div className="forgot-password-link">
-            <a href="/forgot-password" className="forgot-link">
+          {/* Forgot password */}
+          <div className="text-right text-sm">
+            <a href="/forgot-password" className="text-[#010922] hover:underline">
               Forgot Password?
             </a>
           </div>
 
+          {/* Error message */}
           {error && (
-            <div className="error-message">
-              {error}
-            </div>
+            <div className="text-red-600 text-sm mb-2">{error}</div>
           )}
 
+          {/* Login button */}
           <button
             type="submit"
             disabled={loading}
-            className="login-button"
+            className="w-full py-3 bg-[#010922] hover:bg-[#1A1F2E] text-white rounded-xl font-semibold transition-all duration-200 text-lg tracking-wide disabled:bg-gray-400"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Logging in..." : "LOGIN"}
           </button>
 
-          <div className="signup-links">
-            <p className="signup-text">Don't have an account?</p>
-            <div className="signup-options">
-              <a href="/client/signup" className="signup-link">
+          {/* Sign up options */}
+          <div className="mt-8 text-center text-sm text-[#010922]">
+            <p className="text-base font-medium">Don't have an account?</p>
+            <div className="mt-4 flex flex-col sm:flex-row justify-center gap-3">
+              <a href="/client/signup" className="text-[#010922] text-sm font-medium hover:underline hover:text-[#1A1F2E] transition-colors duration-200">
                 Sign up as Client
               </a>
-              <a href="/advocate/signup" className="signup-link">
-                Sign up as Lawyer
+              <a href="/advocate/signup" className="text-[#010922] text-sm font-medium hover:underline hover:text-[#1A1F2E] transition-colors duration-200">
+                Sign up as Advocate
               </a>
             </div>
           </div>
         </form>
       </div>
 
+      {/* Toast container */}
       <ToastContainer 
         position="top-center"
         autoClose={3000}

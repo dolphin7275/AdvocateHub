@@ -12,7 +12,6 @@ const AdvocateLogin = () => {
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showToast, setShowToast] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,32 +22,6 @@ const AdvocateLogin = () => {
       [name]: value,
     }));
   };
-
-  // Custom toast components
-  const CustomSuccessToast = ({ message }) => (
-    <div className="custom-toast-container">
-      <CheckCircle size={64} className="custom-toast-icon-success" />
-      <p className="custom-toast-message">{message}</p>
-    </div>
-  );
-
-  const CustomErrorToast = ({ message, closeToast }) => (
-    <div className="custom-toast-container">
-      <button 
-        onClick={() => {
-          closeToast();
-          setShowToast(false);
-        }}
-        className="custom-toast-close-btn"
-      >
-        <X size={24} />
-      </button>
-      <div className="custom-toast-icon-error-bg">
-        <X size={48} className="custom-toast-icon-error" />
-      </div>
-      <p className="custom-toast-message">{message}</p>
-    </div>
-  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,7 +60,6 @@ const AdvocateLogin = () => {
         return;
       }
 
-      // Show success toast
       toast.success("Login successful!", {
         position: "top-right",
         autoClose: 3000,
@@ -97,7 +69,6 @@ const AdvocateLogin = () => {
         draggable: true,
       });
 
-      // ✅ Role-based redirect with slight delay to show toast
       setTimeout(() => {
         if (status === "approved") {
           navigate("/advocate/dashboard");
@@ -132,135 +103,93 @@ const AdvocateLogin = () => {
   };
 
   return (
-    <div className="flex h-screen font-sans">
-      <div
-        className="relative flex-1 bg-cover bg-center flex flex-col justify-center items-center p-5 text-center"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1588776814546-8e1a529d7b77?auto=format&fit=crop&w=900&q=80')`,
-        }}
-      >
-        <div className="absolute inset-0" style={{ backgroundColor: '#6E7582'}}></div>
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="mb-4">
-            <img
-              src="./../public/logo_icon.png"
-              alt="AdvocateHub Logo"
-              className="h-20 w-auto"
-            />
-          </div>
-          <h1 className="text-4xl font-bold mb-2">
-            <span className="text-[#1A1F2B]">ADVOCATE</span>
-            <span className="text-[#8C2B32]">HUB</span>
+    <div className="flex flex-col md:flex-row lg:flex-row min-h-screen bg-[#8080d7] text-[#010922] font-sans">
+      
+      {/* Left Section */}
+      <div className="w-full md:w-full lg:w-1/2 flex justify-center items-center p-8 max-md:py-12">
+        <div className="text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold">
+            <span className="text-white">ADVOCATE</span>{' '}
+            <span className="text-[#010922]">HUB</span>
           </h1>
-             <p className="text-lg italic" style={{ color: '#F8F8F5' }}>
-               Seek for the truth
-             </p>
+          <p className="mt-4 text-white text-md md:text-lg italic">Seek for the truth</p>
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col justify-center p-10 md:p-16 bg-[#fceee0] font-sans">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          Log in
-        </h2>
+      {/* Right Section */}
+      <div className="w-full md:w-full lg:w-1/2 flex justify-center items-center px-6 py-10 md:px-12 lg:p-20 bg-[#8080d7]">
+        <div className="w-full max-w-md mx-auto bg-[#aad9d9] p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-300">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            
+            <h2 className="text-2xl md:text-3xl font-bold mb-8 text-[#010922] text-center">
+              ADVOCATE LOGIN
+            </h2>
 
-        <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
-          <div className="mb-6">
-            <label className="block font-semibold mb-2 text-lg">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              placeholder="username@gmail.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full p-3 border border-gray-300 rounded-md shadow-md bg-[#F8F8F5] text-black focus:outline-none focus:ring-2 focus:ring-[#C8A165]"
-            />
-          </div>
+            {/* Email */}
+            <div>
+              <label className="block font-semibold mb-2 text-[#010922]">Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="username@gmail.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 text-[#010922] placeholder-gray-700 bg-[#F3F4F6] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#010922] transition-all duration-200 hover:shadow-md hover:border-[#7aafa8]"
+              />
+            </div>
 
-          <div className="mb-4">
-            <label className="block font-semibold mb-2 text-lg">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full p-3 border border-gray-300 rounded-md shadow-md bg-[#F8F8F5] text-black focus:outline-none focus:ring-2 focus:ring-[#C8A165] tracking-wide"
-            />
-          </div>
+            {/* Password */}
+            <div>
+              <label className="block font-semibold mb-2 text-[#010922]">Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="********"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 text-[#010922] placeholder-gray-700 bg-[#F3F4F6] border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#010922] transition-all duration-200 hover:shadow-md hover:border-[#7aafa8]"
+              />
+            </div>
 
-          <div className="text-right mb-10">
-            <Link
-              to="/forgot-password"
-              className="text-sm hover:underline"
-              style={{ color: '#F8F8F5' }}
-            >
-              Forgot Password ?
-            </Link>
-          </div>
-
-          {error && (
-            <div className="text-red-500 text-center text-sm mb-4">{error}</div>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full p-3 font-semibold text-lg rounded-xl transition-colors duration-200 shadow-md"
-            style={{
-              backgroundColor: '#8C2B32',
-              color: '#F8F8F5',
-            }}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-
-          <div className="text-center mt-8">
-            <p className="mb-6 font-semibold text-lg">
-              Don't have an account ?
-            </p>
-
-            <div className="flex justify-center items-center space-x-10">
-              <Link
-                to="/client/signup"
-                className="font-bold hover:underline text-xl"
-                style={{ color: '#8C2B32' }}
-              >
-                Sign up as Client
-              </Link>
-              <Link
-                to="/advocate/signup"
-                className="font-bold hover:underline text-xl"
-                style={{ color: '#8C2B32' }}
-              >
-                Sign up as Lawyer
+            {/* Forgot Password */}
+            <div className="text-right text-sm">
+              <Link to="/forgot-password" className="text-[#010922] hover:underline">
+                Forgot Password?
               </Link>
             </div>
-          </div>
-        </form>
+
+            {/* Error */}
+            {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-[#010922] hover:bg-[#1A1F2E] text-white rounded-xl font-semibold transition-all duration-200 text-lg tracking-wide disabled:bg-gray-400"
+            >
+              {loading ? "Logging in..." : "LOGIN"}
+            </button>
+
+            {/* Signup Links */}
+            <div className="mt-8 text-center text-sm text-[#010922]">
+              <p className="text-base font-medium">Don't have an account?</p>
+              <div className="mt-4 flex flex-col sm:flex-row justify-center gap-3">
+                <Link to="/client/signup" className="text-[#010922] text-sm font-medium hover:underline hover:text-[#1A1F2E] transition-colors duration-200">
+                  Sign up as Client
+                </Link>
+                <Link to="/advocate/signup" className="text-[#010922] text-sm font-medium hover:underline hover:text-[#1A1F2E] transition-colors duration-200">
+                  Sign up as Lawyer
+                </Link>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
 
       {/* Toast Container */}
-      <ToastContainer 
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-        pauseOnHover
-        theme="light"
-        toastClassName="custom-toast-wrapper"
-        bodyClassName="custom-toast-body"
-        className="toast-container-center"
-      />
+      <ToastContainer />
     </div>
   );
 };

@@ -172,7 +172,7 @@ const Hero = () => {
               scale: 1.05,
               transition: { duration: 0.3 }
             }}
-            src="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" 
+            src="null"
             alt="Legal Help"
             className="w-full max-w-xs sm:max-w-sm md:max-w-md object-contain drop-shadow-lg"  />
         </motion.div>

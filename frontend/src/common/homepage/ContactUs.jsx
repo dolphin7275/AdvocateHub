@@ -66,7 +66,7 @@ const handleSubmit = async (e) => {
     <section className="bg-[#8080d7] text-white">
       <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 py-10">
         <motion.div
-          className="w-full max-w-6xl mx-auto p-6 sm:p-8 rounded-2xl shadow-2xl bg-[#aad9d9] border border-[#99c2c2]"
+          className="w-full max-w-6xl mx-auto p-6 sm:p-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}

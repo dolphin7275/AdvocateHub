@@ -1,3 +1,4 @@
+// import SupabaseClient from './utils/SupabaseClient.js';
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./common/Home.jsx";
 import AdvocateList from "./common/searchpage/AdvocateList.jsx";
@@ -18,7 +19,6 @@ import AdvocateCard from "./common/searchpage/AdvocateCard.jsx";
 import AdvocateInfo from "./adminSection/AdvocateInfo.jsx";
 import { AdvocateBookingHistory } from "./advocateSection/pages/AdvocateBookingHistory.jsx";
 import AdvocateProfile from "./advocateSection/pages/AdvocateProfile.jsx";
-// import WebsiteFeedbackSection from "./common/homepage/WebsiteFeedbackSection.jsx";
 import TermsAndConditions from "./common/homepage/TermsAndConditions.jsx";
 import PrivacyPolicy from "./common/homepage/PrivacyPolicy.jsx";
 import FAQs from "./common/homepage/FAQs.jsx";
@@ -41,6 +41,20 @@ const router = createBrowserRouter([
         <Footer />
       </div>
     ),
+    children: [
+      {
+        path: "/termsandconditions",
+        element: <TermsAndConditions />
+      },
+      {
+        path: "/privacypolicy",
+        element: <PrivacyPolicy />
+      },
+      {
+        path: "/faqs",
+        element: <FAQs />
+      },
+    ]
   },
   {
     path: "/advocate-list",
@@ -54,7 +68,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <AdvocateList />, // 👈 this shows by default at /advocate-list
+        element: <AdvocateList />, 
       },
       {
         path: "lawyer/:id",
@@ -121,7 +135,7 @@ const router = createBrowserRouter([
         element: <AdvocateProfile />
       },
       {
-        path: "waiting",
+        path: "waiting/:id",
         element: <AdvocateWaiting />
       },
       {
@@ -137,6 +151,7 @@ const router = createBrowserRouter([
       <div>
         <Navbar />
         <Admin />
+        <Footer />
       </div>
     ),
     children: [
@@ -159,42 +174,44 @@ const router = createBrowserRouter([
     ],
   },
   {
-  path: "chat/:bookingId",
-  element: <ChatRoomWrapper />,
+    path: "chat/:bookingId",
+    element: <ChatRoomWrapper />,
   },
-  {
-    path: "/TermsAndConditions",
-    element: (
-    <div>
-        <Navbar />
-        <TermsAndConditions />
-        <Footer/>
-      </div>
-       )
-     },
-     {
-      path: "/PrivacyPolicy",
-      element: (
-        <div>
-          <Navbar />
-          <PrivacyPolicy />
-          <Footer />
-        </div>
-      )
-     },
-     {
-      path: "/FAQs",
-      element: (
-        <div>
-          <Navbar />
-          <FAQs />
-          <Footer />
-        </div>
-      )
-     }
+  // {
+  //   path: "/TermsAndConditions",
+  //   element: (
+  //   <div>
+  //       <Navbar />
+  //       <TermsAndConditions />
+  //       <Footer/>
+  //     </div>
+  //   )
+  // },
+  // {
+  //   path: "/PrivacyPolicy",
+  //   element: (
+  //     <div>
+  //       <Navbar />
+  //       <PrivacyPolicy />
+  //       <Footer />
+  //     </div>
+  //   )
+  // },
+  // {
+  //   path: "/FAQs",
+  //   element: (
+  //     <div>
+  //       <Navbar />
+  //       <FAQs />
+  //       <Footer />
+  //     </div>
+  //   )
+  // }
 ]);
 
+
 function App() {
+
   return (
     <>
       <AuthProvider>

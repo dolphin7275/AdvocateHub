@@ -27,7 +27,7 @@ export default function AdminSignup() {
       try {
         const res = await api.get('/userapi/check-auth/');
         if (res.data?.role === 'admin' && res.data?.is_superuser) {
-          navigate('/admin/dashboard');
+          navigate('/admin/login');
         }
       } catch (err) {
        
@@ -62,7 +62,7 @@ export default function AdminSignup() {
       await api.post('/userapi/admin-register/', dataToSend);
       setSuccess('Admin account created successfully!');
      
-      setTimeout(() => navigate('/admin/dashboard'), 1500);
+      setTimeout(() => navigate('/admin/login'), 1500);
     } catch (err) {
       console.error('Signup error:', err);
       if (err.response?.data?.email) {

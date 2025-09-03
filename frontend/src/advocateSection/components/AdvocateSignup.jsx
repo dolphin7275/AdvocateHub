@@ -32,6 +32,30 @@ const AdvocateSignup = () => {
     state: "",
     city: ""
   });
+  const caseOptions = [
+  "Civil Cases",
+  "Criminal Cases",
+  "Family Law Cases",
+  "Property and Land Disputes",
+  "Corporate and Commercial Cases",
+  "Consumer Protection Cases",
+  "Labour and Employment Cases",
+  "Taxation Cases",
+  "Intellectual Property Cases",
+  "Environmental Law Cases",
+  "Constitutional and Writ Petitions",
+  "Cybercrime and IT Law Cases",
+  "Banking and Finance Disputes",
+  "Insurance Claims",
+  "Human Rights and Public Interest Litigations (PILs)",
+  "Arbitration and Alternative Dispute Resolution (ADR)",
+  "Education and Service Matters",
+  "Immigration and Citizenship Cases",
+  "Media and Entertainment Law Cases",
+  "Real Estate and Tenancy Disputes"
+].sort();
+
+
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -120,7 +144,7 @@ const AdvocateSignup = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      navigate('/advocate/login');
+      navigate('/advocate/waiting/:id');
     } catch (err) {
       console.error(err);
       if (err.response?.data) {
@@ -135,25 +159,24 @@ const AdvocateSignup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#8080d7] p-6 font-sans flex flex-col items-center">
-      <h2 className="text-3xl font-bold text-black mb-10 pt-4 underline decoration-4 underline-offset-4 decoration-black">
-        Lawyer Sign up Page
-      </h2>
+    <div className="min-h-screen bg-[#8080d7] p-4 sm:p-6 font-sans flex flex-col items-center">
+      
 
-      <form onSubmit={handleSubmit} className="w-full max-w-4xl space-y-8">
+      <form onSubmit={handleSubmit} className="w-full max-w-4xl space-y-6 sm:space-y-8">
         
 {/* SECTION 1 – Personal Info */}
 <div className="mt-4">
-  <h3 className="font-extrabold text-gray-800 text-2xl leading-none">
+  
+  {/* <h3 className="font-extrabold text-gray-800 text-xl sm:text-2xl leading-none mb-2 sm:mb-4 text-center sm:text-left">
     Section 1 – Personal Information
-  </h3>
-  <div className="bg-[#aad9d9] p-8 rounded-xl shadow-lg">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
+  </h3> */}
+  <div className="bg-[#aad9d9] p-4 sm:p-8 rounded-xl shadow-lg">
+    <h2 className="text-2xl sm:text-3xl font-bold text-black mb-6 sm:mb-10 pt-4  text-center">
+        Advocate Sign up 
+      </h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 sm:gap-x-16 gap-y-4 sm:gap-y-6">
       <div className="flex flex-col">
-        <label
-          htmlFor="fullName"
-          className="font-extrabold text-gray-800 text-xl mb-2"
-        >
+        <label htmlFor="fullName" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           Full Name
         </label>
         <input
@@ -163,15 +186,12 @@ const AdvocateSignup = () => {
           onChange={handleChange}
           placeholder="Enter your name"
           required
-          className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
         />
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="email"
-          className="font-extrabold text-gray-800 text-xl mb-2"
-        >
+        <label htmlFor="email" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           Email
         </label>
         <input
@@ -182,15 +202,12 @@ const AdvocateSignup = () => {
           onChange={handleChange}
           placeholder="Enter your Email"
           required
-          className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
         />
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="phoneNumber"
-          className="font-extrabold text-gray-800 text-xl mb-2"
-        >
+        <label htmlFor="phoneNumber" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           Phone Number
         </label>
         <input
@@ -200,24 +217,19 @@ const AdvocateSignup = () => {
           onChange={handleChange}
           placeholder="Enter your phone number"
           required
-          className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
         />
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="profilePicture"
-          className="font-extrabold text-gray-800 text-xl mb-2"
-        >
+        <label htmlFor="profilePicture" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           Profile Picture
         </label>
         <label className="p-3 border border-gray-300 rounded-lg bg-white text-sm flex items-center justify-between cursor-pointer focus-within:ring-2 focus-within:ring-[#7a5b2c]">
           <span className="text-gray-500 truncate pr-2">
-            {formData.profilePicture
-              ? formData.profilePicture.name
-              : ""}
+            {formData.profilePicture ? formData.profilePicture.name : ""}
           </span>
-          <span className="inline-block px-5 py-2 bg-[#7a5b2c] text-white text-sm font-semibold rounded-md hover:bg-[#5d4421] transition-colors duration-300">
+          <span className="inline-block px-4 sm:px-5 py-2 bg-[#0d0d5d] text-white text-sm font-semibold rounded-md hover:bg-[#0d0d5d] transition-colors duration-300">
             Upload
           </span>
           <input
@@ -229,7 +241,6 @@ const AdvocateSignup = () => {
           />
         </label>
 
-        {/* View Button */}
         {formData.profilePicture && (
           <button
             type="button"
@@ -241,7 +252,7 @@ const AdvocateSignup = () => {
                  </body></html>`
               );
             }}
-            className="mt-2 inline-block px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md hover:bg-blue-800 transition-colors duration-300"
+            className="mt-2 inline-block px-4 sm:px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md hover:bg-blue-800 transition-colors duration-300"
           >
             View
           </button>
@@ -249,10 +260,7 @@ const AdvocateSignup = () => {
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="password"
-          className="font-extrabold text-gray-800 text-xl mb-2"
-        >
+        <label htmlFor="password" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           Password
         </label>
         <input
@@ -263,15 +271,12 @@ const AdvocateSignup = () => {
           onChange={handleChange}
           placeholder="Enter your Password"
           required
-          className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
         />
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="confirmPassword"
-          className="font-extrabold text-gray-800 text-xl mb-2"
-        >
+        <label htmlFor="confirmPassword" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           Confirm Password
         </label>
         <input
@@ -282,19 +287,15 @@ const AdvocateSignup = () => {
           onChange={handleChange}
           placeholder="Enter your Password"
           required
-          className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
         />
-
         {passwordError && (
           <p className="text-red-500 text-sm mt-1">{passwordError}</p>
         )}
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="cnic"
-          className="font-extrabold text-gray-800 text-xl mb-2"
-        >
+        <label htmlFor="cnic" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           Registration Number
         </label>
         <input
@@ -304,11 +305,12 @@ const AdvocateSignup = () => {
           onChange={handleChange}
           placeholder="Enter your Registration Number"
           required
-          className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
         />
       </div>
+
       <div className="flex flex-col">
-        <label htmlFor="education" className="font-extrabold text-gray-800 text-xl mb-2">
+        <label htmlFor="education" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           Highest Education
         </label>
         <input
@@ -318,12 +320,13 @@ const AdvocateSignup = () => {
           onChange={handleChange}
           placeholder="Enter your education details"
           required
-          className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
         />
       </div>
-      {/* Centered AOR Number Field */}
-      <div className="flex flex-col md:col-span-2 md:w-1/2 mx-auto">
-        <label htmlFor="aorNumber" className="font-extrabold text-gray-800 text-xl mb-2 text-center">
+
+      {/* AOR Number & Current Location side by side */}
+      <div className="flex flex-col">
+        <label htmlFor="aorNumber" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
           AOR Number
         </label>
         <input
@@ -333,7 +336,22 @@ const AdvocateSignup = () => {
           onChange={handleChange}
           placeholder="Enter your AOR Number"
           required
-          className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-center"
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label htmlFor="currentLocation" className="font-extrabold text-gray-800 text-lg sm:text-xl mb-2">
+          Current Location
+        </label>
+        <input
+          id="currentLocation"
+          name="currentLocation"
+          value={formData.currentLocation}
+          onChange={handleChange}
+          placeholder="Enter your Current Location"
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg bg-white text-sm sm:text-base"
         />
       </div>
     </div>
@@ -341,17 +359,13 @@ const AdvocateSignup = () => {
 </div>
 
 
-
-
- {/* SECTION 2 – KYC Upload */}
+{/* SECTION 2 – KYC Upload */}
 <div>
-  <h3 className="font-extrabold text-gray-800 text-2xl leading-none mb-4">
+  {/* <h3 className="font-extrabold text-gray-800 text-xl sm:text-2xl leading-none mb-2 sm:mb-4 text-center sm:text-left">
     Section 2 – KYC Upload
-  </h3>
-  <div className="bg-[#aad9d9] p-8 rounded-xl shadow-lg">
-    <div className="grid grid-cols-[max-content_max-content] gap-x-8 gap-y-6 items-center">
-
-      {/* Reusable Image Popup Function */}
+  </h3> */}
+  <div className="bg-[#aad9d9] p-4 sm:p-8 rounded-xl shadow-lg">
+    <div className="grid grid-cols-1 sm:grid-cols-[max-content_max-content] gap-x-6 sm:gap-x-8 gap-y-4 sm:gap-y-6 items-center">
       {(() => {
         const showImagePopup = (file) => {
           const imgWindow = window.open("", "_blank", "width=400,height=400");
@@ -365,18 +379,13 @@ const AdvocateSignup = () => {
         return (
           <>
             {/* COP Certificate */}
-            <label
-              htmlFor="barCouncilCert"
-              className="font-extrabold text-gray-800 text-xl"
-            >
+            <label htmlFor="barCouncilCert" className="font-extrabold text-gray-800 text-lg sm:text-xl">
               Upload COP Certificate
             </label>
-            <div className="flex items-center gap-3">
-              <label className="p-3 border border-gray-300 rounded-lg bg-[#7a5b2c] text-sm flex items-center justify-center cursor-pointer min-w-[150px] text-white font-semibold hover:bg-[#5d4421] transition-colors duration-300">
-                <span className="text-white text-base break-all text-center">
-                  {formData.barCouncilCert
-                    ? formData.barCouncilCert.name
-                    : "Upload"}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
+              <label className="p-3 border border-gray-300 rounded-lg bg-[#332060] text-sm cursor-pointer text-white font-semibold hover:bg-[#39247a] transition-colors duration-300 max-w-full flex items-center">
+                <span className="text-white text-base truncate max-w-[200px]" title={formData.barCouncilCert ? formData.barCouncilCert.name : ""}>
+                  {formData.barCouncilCert ? formData.barCouncilCert.name : "Upload"}
                 </span>
                 <input
                   type="file"
@@ -397,19 +406,14 @@ const AdvocateSignup = () => {
               )}
             </div>
 
-            {/* Aadhaar Card */}
-            <label
-              htmlFor="aadhaarCard"
-              className="font-extrabold text-gray-800 text-xl"
-            >
+            {/* Aadhaar */}
+            <label htmlFor="aadhaarCard" className="font-extrabold text-gray-800 text-lg sm:text-xl">
               Upload Aadhaar Card
             </label>
-            <div className="flex items-center gap-3">
-              <label className="p-3 border border-gray-300 rounded-lg bg-[#7a5b2c] text-sm flex items-center justify-center cursor-pointer min-w-[150px] text-white font-semibold hover:bg-[#5d4421] transition-colors duration-300">
-                <span className="text-white text-base break-all text-center">
-                  {formData.aadhaarCard
-                    ? formData.aadhaarCard.name
-                    : "Upload"}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
+              <label className="p-3 border border-gray-300 rounded-lg bg-[#332060] text-sm cursor-pointer text-white font-semibold hover:bg-[#39247a] transition-colors duration-300 max-w-full flex items-center">
+                <span className="text-white text-base truncate max-w-[200px]" title={formData.aadhaarCard ? formData.aadhaarCard.name : ""}>
+                  {formData.aadhaarCard ? formData.aadhaarCard.name : "Upload"}
                 </span>
                 <input
                   type="file"
@@ -430,19 +434,14 @@ const AdvocateSignup = () => {
               )}
             </div>
 
-            {/* Pan Card */}
-            <label
-              htmlFor="panCard"
-              className="font-extrabold text-gray-800 text-xl"
-            >
-              Upload Pan Card
+            {/* PAN */}
+            <label htmlFor="panCard" className="font-extrabold text-gray-800 text-lg sm:text-xl">
+              Upload PAN Card
             </label>
-            <div className="flex items-center gap-3">
-              <label className="p-3 border border-gray-300 rounded-lg bg-[#7a5b2c] text-sm flex items-center justify-center cursor-pointer min-w-[150px] text-white font-semibold hover:bg-[#5d4421] transition-colors duration-300">
-                <span className="text-white text-base break-all text-center">
-                  {formData.panCard
-                    ? formData.panCard.name
-                    : "Upload"}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
+              <label className="p-3 border border-gray-300 rounded-lg bg-[#332060] text-sm cursor-pointer text-white font-semibold hover:bg-[#39247a] transition-colors duration-300 max-w-full flex items-center">
+                <span className="text-white text-base truncate max-w-[200px]" title={formData.panCard ? formData.panCard.name : ""}>
+                  {formData.panCard ? formData.panCard.name : "Upload"}
                 </span>
                 <input
                   type="file"
@@ -466,12 +465,12 @@ const AdvocateSignup = () => {
             {/* Additional Bar Council Certificate */}
             <label
               htmlFor="additionalCert"
-              className="font-extrabold text-gray-800 text-xl"
+              className="font-extrabold text-gray-800 text-lg sm:text-xl"
             >
               Upload Bar Council Certificate
             </label>
-            <div className="flex items-center gap-3">
-              <label className="p-3 border border-gray-300 rounded-lg bg-[#7a5b2c] text-sm flex items-center justify-center cursor-pointer min-w-[150px] text-white font-semibold hover:bg-[#5d4421] transition-colors duration-300">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <label className="w-full sm:w-auto p-3 border border-gray-300 rounded-lg bg-[#332060] text-sm flex items-center justify-center cursor-pointer text-white font-semibold hover:bg-[#39247a] transition-colors duration-300">
                 <span className="text-white text-base break-all text-center">
                   {formData.additionalCert
                     ? formData.additionalCert.name
@@ -501,13 +500,14 @@ const AdvocateSignup = () => {
     </div>
   </div>
 </div>
+ 
 
 
         {/* SECTION 3 – Practice Info */}
         <div>
-          <h3 className="font-extrabold text-gray-800 text-2xl leading-none mb-4">
+          {/* <h3 className="font-extrabold text-gray-800 text-2xl leading-none mb-4">
             Section 3 – Practice Information
-          </h3>
+          </h3> */}
           <div className="bg-[#aad9d9] p-8 rounded-xl shadow-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
               {/* <div className="flex flex-col">
@@ -546,11 +546,12 @@ const AdvocateSignup = () => {
                   <option value="" disabled>
                     Choose
                   </option>
-                  <option value="District court">District court</option>
-                  <option value="Session court">Session court</option>
-                  <option value="Supreme court">Supreme court</option>
-                  <option value="Family court">Family court</option>
-                  <option value="High court">High court</option>
+                  <option value="Supreme court">Supreme Court</option>
+                  <option value="High court">High Court</option>
+                  <option value="District court">District Court</option>
+                  <option value="Session court">Subordinate Court</option>
+                  <option value="Specialized court">Specialized Tribunals</option>
+                  <option value="Executive/Revenue Court">Executive/Revenue Court</option>
                 </select>
 
                 <div
@@ -566,23 +567,31 @@ const AdvocateSignup = () => {
                   </svg>
                 </div>
               </div>
+              
 
               <div className="flex flex-col">
-                <label
-                  htmlFor="caseTypes"
-                  className="font-extrabold text-gray-800 text-xl mb-2"
-                >
-                  Case types
-                </label>
-                <input
-                  id="caseTypes"
-                  name="caseTypes"
-                  value={formData.caseTypes}
-                  onChange={handleChange}
-                  placeholder="Choose"
-                  className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
-                />
-              </div>
+  <label
+    htmlFor="caseTypes"
+    className="font-extrabold text-gray-800 text-xl mb-2"
+  >
+    Case types
+  </label>
+  <select
+    id="caseTypes"
+    name="caseTypes"
+    value={formData.caseTypes}
+    onChange={handleChange}
+    className="p-3 border border-gray-300 rounded-lg bg-white text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a5b2c]"
+  >
+    <option value="">Choose</option>
+    {caseOptions.map((option, index) => (
+      <option key={index} value={option}>
+        {option}
+      </option>
+    ))}
+  </select>
+</div>
+
 
               <div className="flex flex-col">
                 <label
@@ -663,9 +672,9 @@ const AdvocateSignup = () => {
 
         {/* SECTION 4 – Address Information */}
         <div>
-          <h3 className="font-extrabold text-gray-800 text-2xl leading-none mb-4">
+          {/* <h3 className="font-extrabold text-gray-800 text-2xl leading-none mb-4">
             Section 4 – Address Information
-          </h3>
+          </h3> */}
           <div className="bg-[#aad9d9] p-8 rounded-xl shadow-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
               <div className="flex flex-col">
@@ -773,8 +782,8 @@ const AdvocateSignup = () => {
       <div className="text-center mt-8 space-y-2">
         <p className="text-[#4a2e0a]">
           Already have an account?{" "}
-          <a href="/Advocate/login" className="text-blue-600 font-bold hover:underline">
-            login here
+          <a href="/advocate/login" className="text-blue-600 font-bold hover:underline">
+            Login here
           </a>
         </p>
         <p className="text-[#4a2e0a]">
