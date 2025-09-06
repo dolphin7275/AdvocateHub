@@ -10,7 +10,7 @@ from clientapi.models import Client
 from lawyerapi.models import Lawyer
 from bookingapi.models import Booking
 from chat.models import ChatMessage
-from videosession.models import VideoSession
+# from videosession.models import VideoSession
 from .serializers import RegisterSerializer, LawyerSerializer, BookingSerializer,ChatMessageSerializer,ContactQuerySerializer
 from datetime import datetime
 from rest_framework.serializers import ValidationError
@@ -648,64 +648,6 @@ class ChatHistoryAPI(APIView):
         serializer = ChatMessageSerializer(messages, many=True)
         return Response(serializer.data)
 # ________________________________________________________________________________________________________
-
-# views :
-
-class VideoTokenRetrieveAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, booking_id):
-        try:
-            booking = Booking.objects.select_related('client', 'lawyer').get(id=booking_id)
-            allowed_users = [booking.client.user, booking.lawyer.user]
-            # Some Error in Auths
-            # if request.user not in allowed_users:
-            #     return Response({"detail": "Access denied"}, status=status.HTTP_403_FORBIDDEN)
-
-            session, _ = VideoSession.objects.get_or_create(booking=booking)
-            session.participants.add(request.user)
-            session.save()
-
-            token = generate_twilio_token(str(request.user.id), room_name=str(booking.id))
-
-            return Response({
-                "token": token,
-                "room": str(booking.id),
-                "booking_id": booking.id
-            })
-
-        except Booking.DoesNotExist:
-            return Response({"detail": "Booking not found."}, status=status.HTTP_404_NOT_FOUND)
-
-
-class VideoTokenCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        booking_id = request.data.get("booking")
-        participant_ids = request.data.get("participants", [])
-
-        try:
-            booking = Booking.objects.get(id=booking_id)
-            session, _ = VideoSession.objects.get_or_create(booking=booking)
-
-            for user_id in participant_ids:
-                try:
-                    user = User.objects.get(id=user_id)
-                    session.participants.add(user)
-                except User.DoesNotExist:
-                    continue
-
-            session.save()
-
-            return Response({
-                "message": "Participants added",
-                "booking_id": booking.id,
-                "participants": list(session.participants.values("id", "username"))
-            })
-
-        except Booking.DoesNotExist:
-            return Response({"detail": "Booking not found."}, status=status.HTTP_404_NOT_FOUND)
         
 
 # ContactView

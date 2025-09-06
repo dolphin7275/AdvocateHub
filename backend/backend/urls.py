@@ -15,7 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include, re_path
+from django.views.generic import TemplateView
+
+
 
 
 urlpatterns = [
@@ -23,6 +26,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('userapi/', include('advocateshub.urls')),  # so frontend hits /userapi/register/
     path('api/', include('website_feedback.urls')),
+    path('video/', include('videosession.urls')),
+    
+    
 ]
 
 

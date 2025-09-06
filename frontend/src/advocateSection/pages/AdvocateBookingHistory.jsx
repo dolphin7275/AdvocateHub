@@ -1,6 +1,8 @@
+// components/AdvocateBookingHistory.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../apiCalls/axios.js';
+import BookingVideoChat from '../../videochatsection/BookingVideoChat.jsx'; // ✅ Import modal wrapper
 
 export const AdvocateBookingHistory = () => {
   const [bookings, setBookings] = useState([]);
@@ -10,6 +12,9 @@ export const AdvocateBookingHistory = () => {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('success');
   const [actionLoading, setActionLoading] = useState(false);
+
+  // ✅ State for video chat modal
+  const [activeChatBookingId, setActiveChatBookingId] = useState(null);
 
   useEffect(() => {
     fetchBookings();
@@ -22,6 +27,8 @@ export const AdvocateBookingHistory = () => {
       setBookings(res.data);
     } catch (err) {
       console.error('Error fetching bookings:', err);
+      setMessage('Failed to load bookings.');
+      setMessageType('error');
     } finally {
       setLoading(false);
     }
@@ -36,7 +43,7 @@ export const AdvocateBookingHistory = () => {
       fetchBookings();
     } catch (err) {
       setMessage('Failed to confirm booking.');
-      setMessageType('error', err);
+      setMessageType('error');
     } finally {
       setActionLoading(false);
     }
@@ -51,7 +58,7 @@ export const AdvocateBookingHistory = () => {
       fetchBookings();
     } catch (err) {
       setMessage('Failed to reject booking.');
-      setMessageType('error', err);
+      setMessageType('error');
     } finally {
       setActionLoading(false);
     }
@@ -155,11 +162,22 @@ export const AdvocateBookingHistory = () => {
                   )}
 
                   {booking.status === 'confirmed' && (
-                    <Link to={`/chat/${booking.id}`}>
-                      <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                        Chat Now
+                    <>
+                      {/* ✅ Video Chat Button */}
+                      <button
+                        onClick={() => setActiveChatBookingId(booking.id)}
+                        className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
+                      >
+                        🎥 Video Chat
                       </button>
-                    </Link>
+
+                      {/* Optional: Keep "Chat Now" for text-only */}
+                      <Link to={`/chat/${booking.id}`}>
+                        <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                          Chat Now
+                        </button>
+                      </Link>
+                    </>
                   )}
                 </div>
               </div>
@@ -199,6 +217,16 @@ export const AdvocateBookingHistory = () => {
           ))}
         </div>
       )}
+
+      {/* ✅ Video Chat Modal */}
+      {activeChatBookingId && (
+        <BookingVideoChat
+          bookingId={activeChatBookingId}
+          onClose={() => setActiveChatBookingId(null)}
+        />
+      )}
     </div>
   );
 };
+
+export default AdvocateBookingHistory;

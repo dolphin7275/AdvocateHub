@@ -219,7 +219,7 @@ const Navbar = () => {
                     {userType === 'client' && (
                       <button
                         onClick={() => {
-                          navigate("/client/bookings");
+                          navigate("/client/dashboard");
                           closeAllMenus();
                         }}
                         className="block px-4 py-3 lg:py-2 font-semibold text-left text-[#010922] hover:bg-[#010922] hover:text-[#F8F8F5] rounded-sm cursor-pointer w-full transition-colors duration-200"

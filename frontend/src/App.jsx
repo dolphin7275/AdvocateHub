@@ -29,6 +29,7 @@ import AdvocateWaiting from "./advocateSection/pages/AdvocateWaiting.jsx";
 // import LawyerReviewSection from "./common/searchpage/LawyerReviewSection.jsx";
 import ManageSlots from "./advocateSection/pages/ManageSlots.jsx";
 import ClientProfile from "./clientSection/pages/ClientProfile.jsx";
+import VideoChat from "./videochatsection/VideoChat.jsx";
 
 
 const router = createBrowserRouter([
@@ -177,6 +178,16 @@ const router = createBrowserRouter([
     path: "chat/:bookingId",
     element: <ChatRoomWrapper />,
   },
+  {
+    path: "/video-chat",
+    element: (
+    <div>
+      <Navbar />
+      <VideoChat />
+      <Footer />
+    </div>
+  )
+  }
   // {
   //   path: "/TermsAndConditions",
   //   element: (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../apiCalls/axios'
+import api from '../../apiCalls/axios';
+import BookingVideoChat from '../../videochatsection/BookingVideoChat'; // Import the wrapper
 
 const ClientDashboard = () => {
   const [bookings, setBookings] = useState([]);
@@ -11,6 +12,8 @@ const ClientDashboard = () => {
   const [lawyersMap, setLawyersMap] = useState({});
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [activeChatBookingId, setActiveChatBookingId] = useState(null); // Controls modal
+
   const navigate = useNavigate();
 
   const fetchBookings = async () => {
@@ -131,7 +134,7 @@ const ClientDashboard = () => {
           {bookings.map((booking) => {
             const isConfirmed = booking.status === 'confirmed';
             const scheduledTime = new Date(booking.scheduled_for);
-            const isChatAvailable = isConfirmed && new Date() >= scheduledTime;
+            const isCallActive = isConfirmed && new Date() >= scheduledTime;
 
             return (
               <div key={booking.id} className="bg-[#f1d2a9] rounded-lg shadow p-4">
@@ -145,11 +148,18 @@ const ClientDashboard = () => {
                 <p className="text-sm text-gray-700">Location: {booking.location}</p>
                 <p className="text-sm text-gray-700">Duration: {booking.duration} mins</p>
                 <p className="text-sm text-gray-700">
-                  Status: <span className={`font-bold ml-2 ${
-                    booking.status === 'confirmed' ? 'text-green-800' :
-                    booking.status === 'pending' ? 'text-yellow-700' :
-                    'text-red-600'
-                  }`}>{booking.status}</span>
+                  Status:{' '}
+                  <span
+                    className={`font-bold ml-2 ${
+                      booking.status === 'confirmed'
+                        ? 'text-green-800'
+                        : booking.status === 'pending'
+                        ? 'text-yellow-700'
+                        : 'text-red-600'
+                    }`}
+                  >
+                    {booking.status}
+                  </span>
                 </p>
 
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -177,19 +187,33 @@ const ClientDashboard = () => {
 
                       <button
                         onClick={() => handleChatNow(booking.id)}
-                        disabled={!isChatAvailable}
+                        disabled={!isCallActive}
                         className={`px-3 py-1 rounded text-white font-medium ${
-                          isChatAvailable
+                          isCallActive
                             ? 'bg-[#0a043c] hover:bg-[#030224]'
                             : 'bg-gray-400 cursor-not-allowed'
                         }`}
                       >
-                        {isChatAvailable ? 'Chat Now' : 'Chat Unavailable'}
+                        Chat Now
+                      </button>
+
+                      {/* ✅ Video Chat Button */}
+                      <button
+                        onClick={() => setActiveChatBookingId(booking.id)}
+                        disabled={!isCallActive}
+                        className={`px-3 py-1 rounded text-white font-medium ${
+                          isCallActive
+                            ? 'bg-purple-600 hover:bg-purple-700'
+                            : 'bg-gray-400 cursor-not-allowed'
+                        }`}
+                      >
+                        Video Chat
                       </button>
                     </>
                   )}
                 </div>
 
+                {/* Reschedule Form */}
                 {rescheduleId === booking.id && (
                   <div className="mt-4 bg-white p-4 rounded shadow border">
                     <label className="block mb-2 text-sm font-semibold">Select New Slot:</label>
@@ -241,6 +265,14 @@ const ClientDashboard = () => {
             );
           })}
         </div>
+      )}
+
+      {/* ✅ Video Chat Modal */}
+      {activeChatBookingId && (
+        <BookingVideoChat
+          bookingId={activeChatBookingId}
+          onClose={() => setActiveChatBookingId(null)}
+        />
       )}
     </div>
   );

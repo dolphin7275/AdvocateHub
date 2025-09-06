@@ -4,7 +4,7 @@ from clientapi.models import Client
 from lawyerapi.models import Lawyer
 from bookingapi.models import Booking
 from chat.models import ChatMessage
-from videosession.models import VideoSession
+# from videosession.models import VideoSession
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -144,22 +144,6 @@ class ChatMessageSerializer(serializers.ModelSerializer):
 
 # _________________________________________________________________________________________________________
 
-
-class VideoSessionSerializer(serializers.ModelSerializer):
-    participants = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
-        many=True
-    )
-
-    class Meta:
-        model = VideoSession
-        fields = ['id', 'booking', 'participants', 'started_at', 'ended_at', 'is_active']
-
-    def create(self, validated_data):
-        participants = validated_data.pop('participants')
-        video_session = VideoSession.objects.create(**validated_data)
-        video_session.participants.set(participants)
-        return video_session
     
 class ContactQuerySerializer(serializers.ModelSerializer):
     class Meta:
