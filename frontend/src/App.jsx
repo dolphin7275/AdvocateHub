@@ -30,6 +30,9 @@ import AdvocateWaiting from "./advocateSection/pages/AdvocateWaiting.jsx";
 import ManageSlots from "./advocateSection/pages/ManageSlots.jsx";
 import ClientProfile from "./clientSection/pages/ClientProfile.jsx";
 import VideoChat from "./videochatsection/VideoChat.jsx";
+import Featured from "./common/homepage/Featured.jsx";
+import Testimonials from "./common/homepage/Testimonials.jsx";
+import ContactUs from "./common/homepage/ContactUs.jsx";
 
 
 const router = createBrowserRouter([
@@ -38,11 +41,15 @@ const router = createBrowserRouter([
     element: (
       <div>
         <Navbar />
-        <Home />
+        <Outlet />
         <Footer />
       </div>
     ),
     children: [
+      {
+        index: true, 
+        element: <Home />
+      },
       {
         path: "/termsandconditions",
         element: <TermsAndConditions />
@@ -55,6 +62,19 @@ const router = createBrowserRouter([
         path: "/faqs",
         element: <FAQs />
       },
+      {
+        path: "/featured-lawyers",
+        element: <Featured />
+      },
+      {
+        path: "/testimonials",
+        element: <Testimonials />
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />
+      }
+
     ]
   },
   {
